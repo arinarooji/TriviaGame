@@ -1,7 +1,7 @@
 body {
 	background: url("../images/seamless-space.jpg");
 	background-repeat: repeat;
-	background-size: 50%;
+	background-size: 60%;
 	animation: animatedBackground 40s linear infinite;
 }
 .container{

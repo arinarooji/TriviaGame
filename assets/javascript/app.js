@@ -1,58 +1,35 @@
-//QUESTION OBJECTS: There must be a more efficient way...
-var questionOne = {
-	question: "has the largest volcanic mountain? (Olympus Mons)",
-	choices: ["Mercury", "Mars", "Earth", "Venus"],
-	answer: "Mars"
+//TRIVIA OBJECT: Contains questions, choices, and answers in correct order
+var trivia = {
+	//Questions 1-10
+	question: [
+		"has the largest volcanic mountain? (Olympus Mons)",
+		"has the longest day? (243 Earth days)",
+		"has five known moons? (planet/dwarf planet)",
+		"reaches the coldest temperatures? (-224°C)",
+		"has the shortest day? (9 hours 56 minutes)",
+		"is the only planet not named after a god?",
+		"has no moons or rings?",
+		"has the most extensive rings?",
+		"has the strongest winds ever recorded? (2,000 km/h)",
+		"is the oldest?"],
+	//Choice sets for questions 1-10
+	choice: [ 
+		["Mercury", "Mars", "Earth", "Venus"],
+		["Mercury", "Pluto", "Venus", "Jupiter"],
+		["Pluto", "Mars", "Neptune", "Saturn"],
+		["Pluto", "Mercury", "Neptune", "Uranus"],
+		["Venus", "Saturn", "Jupiter", "Mercury"],
+		["Saturn", "Earth", "Mars", "Pluto"],
+		["Neptune", "Mercury", "Jupiter", "Venus"],
+		["Uranus", "Pluto", "Mars", "Saturn"],
+		["Earth", "Jupiter", "Neptune", "Saturn"],
+		["Mercury", "Mars", "Jupiter", "Venus"]
+	],
+	//Answers for questions 1-10
+	answer: ["Mars","Venus","Pluto","Uranus","Jupiter","Earth","Mercury","Saturn","Neptune","Jupiter"]
 }
-var questionTwo = {
-	question: "has the longest day? (243 Earth days)",
-	choices: ["Mercury", "Pluto", "Venus", "Jupiter"],
-	answer: "Venus"
-}
-var questionThree = {
-	question: "has five known moons? (planet/dwarf planet)",
-	choices: ["Pluto", "Mars", "Neptune", "Saturn"],
-	answer: "Pluto"
-}
-var questionFour = {
-	question: "reaches the coldest temperatures? (-224°C)",
-	choices: ["Pluto", "Mercury", "Neptune", "Uranus"],
-	answer: "Uranus"
-}
-var questionFive = {
-	question: "has the shortest day? (9 hours 56 minutes)",
-	choices: ["Venus", "Saturn", "Jupiter", "Mercury"],
-	answer: "Jupiter"
-}
-var questionSix = {
-	question: "is the only planet not named after a god?",
-	choices: ["Saturn", "Earth", "Mars", "Pluto"],
-	answer: "Earth"
-}
-var questionSeven = {
-	question: "has no moons or rings?",
-	choices: ["Neptune", "Mercury", "Jupiter", "Venus"],
-	answer: "Mercury"
-}
-var questionEight = {
-	question: "has the most extensive rings?",
-	choices: ["Uranus", "Pluto", "Mars", "Saturn"],
-	answer: "Saturn"
-}
-var questionNine = {
-	question: "has the strongest winds ever recorded? (2,000 km/h)",
-	choices: ["Earth", "Jupiter", "Neptune", "Saturn"],
-	answer: "Neptune"
-}
-var questionTen = {
-	question: "is the oldest?",
-	choices: ["Earth", "Jupiter", "Neptune", "Saturn"],
-	answer: "Jupiter"
-}
-
 
 //VARIABLES: Array for objects, score counters, iterator, time variables
-var collection = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
 var correct = 0;
 var incorrect = 0;
 var i = 0;
@@ -82,7 +59,7 @@ $(document).ready(function(){
 	//MAIN CLICK EVENT: check the user's answer
 	$(".btns").on("click", function(){
 		//IF correct answer...
-		if(this.innerHTML === collection[i].answer){
+		if(this.innerHTML === trivia.answer[i]){ //collection[i].answer){
 			i++;
 			correct++;
 			right.play();
@@ -116,24 +93,24 @@ $(document).ready(function(){
 //UPDATER FUNCTION
 function updater(){
 	//IF iterator is beyond the array, ready up for replay. Hide choice buttons (no more increments for i)
-	if(i >= collection.length){
+	if(i >= trivia.question.length){
 		$(".btns").hide();
 		$("#replay").show();
 	}
 	//IF still iterating, update Q&A
-	if(i < collection.length){
-	$("#question").html("Which planet in our solar system " + collection[i].question);
-	$("#choice1").html(collection[i].choices[0]);
-	$("#choice2").html(collection[i].choices[1]);
-	$("#choice3").html(collection[i].choices[2]);
-	$("#choice4").html(collection[i].choices[3]);
+	if(i < trivia.question.length){
+	$("#question").html("Which planet in our solar system " + trivia.question[i]);
+	$("#choice0").html(trivia.choice[i][0]);
+	$("#choice1").html(trivia.choice[i][1]);
+	$("#choice2").html(trivia.choice[i][2]);
+	$("#choice3").html(trivia.choice[i][3]);
 	}
 	else{
 		$("#time").hide();
 		$("#question").html("YOUR RESULTS");
 		$("#correct").html("Correct: " + correct);
 		$("#incorrect").html("Incorrect: " + incorrect);
-		$("#grade").html("Grade: " + (correct/collection.length) * 100 + "%");
+		$("#grade").html("Grade: " + (correct/trivia.question.length) * 100 + "%");
 		$(".score").show();
 	}
 }
@@ -143,7 +120,7 @@ function run(){
 	questionTimeout = setInterval(decrement, 1000);
 }
 function decrement(){
-	if(i >= collection.length){
+	if(i >= trivia.question.length){
 		clearInterval(questionTimeout);
 	}
 	if(time <= 0){
