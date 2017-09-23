@@ -4,6 +4,9 @@ body {
 	background-size: 50%;
 	animation: animatedBackground 40s linear infinite;
 }
+.container{
+	margin-top: 50px;
+}
 h1, h3 {
 	font-family: 'Orbitron', sans-serif;
 }

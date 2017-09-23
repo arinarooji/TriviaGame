@@ -10,7 +10,7 @@ var questionTwo = {
 	answer: "Venus"
 }
 var questionThree = {
-	question: "has five known moons?",
+	question: "has five known moons? (planet/dwarf planet)",
 	choices: ["Pluto", "Mars", "Neptune", "Saturn"],
 	answer: "Pluto"
 }
@@ -20,7 +20,7 @@ var questionFour = {
 	answer: "Uranus"
 }
 var questionFive = {
-	question: "has the shortest day? (9 hours 55 minutes)",
+	question: "has the shortest day? (9 hours 56 minutes)",
 	choices: ["Venus", "Saturn", "Jupiter", "Mercury"],
 	answer: "Jupiter"
 }
@@ -39,9 +39,20 @@ var questionEight = {
 	choices: ["Uranus", "Pluto", "Mars", "Saturn"],
 	answer: "Saturn"
 }
+var questionNine = {
+	question: "has the strongest winds ever recorded? (2,000 km/h)",
+	choices: ["Earth", "Jupiter", "Neptune", "Saturn"],
+	answer: "Neptune"
+}
+var questionTen = {
+	question: "is the oldest?",
+	choices: ["Earth", "Jupiter", "Neptune", "Saturn"],
+	answer: "Jupiter"
+}
+
 
 //VARIABLES: Array for objects, score counters, iterator, time variables
-var collection = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight];
+var collection = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight, questionNine, questionTen];
 var correct = 0;
 var incorrect = 0;
 var i = 0;
