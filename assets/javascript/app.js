@@ -1,4 +1,4 @@
-//QUESTION OBJECTS
+//QUESTION OBJECTS: There must be a more efficient way...
 var questionOne = {
 	question: "has the largest volcanic mountain? (Olympus Mons)",
 	choices: ["Mercury", "Mars", "Earth", "Venus"],
@@ -16,7 +16,7 @@ var questionThree = {
 }
 var questionFour = {
 	question: "reaches the coldest temperatures? (-224°C)",
-	choices: ["Pluto", "Nibiru", "Neptune", "Uranus"],
+	choices: ["Pluto", "Mercury", "Neptune", "Uranus"],
 	answer: "Uranus"
 }
 var questionFive = {
@@ -40,6 +40,7 @@ var questionEight = {
 	answer: "Saturn"
 }
 
+//VARIABLES: Array for objects, score counters, iterator, time variables
 var collection = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight];
 var correct = 0;
 var incorrect = 0;
@@ -47,26 +48,40 @@ var i = 0;
 var time = 31;
 var questionTimeout;
 
+
+//FIRE UP THIS CODE WHEN THE DOCUMENT IS READY
 $(document).ready(function(){
+	//AUDIO FILES
+	var music = document.createElement("audio");
+	var right = document.createElement("audio");
+	var wrong = document.createElement("audio");
+	music.setAttribute("src", "assets/audio/space-music.mp3");
+	right.setAttribute("src", "assets/audio/scifiselect.mp3");
+	wrong.setAttribute("src", "assets/audio/scifierror.mp3");
 	
+	//LOOP MUSIC
+	music.loop = true;
+	music.play();
+
+	//STARTUP: hide replay button, update html elements, run the timer
 	$("#replay").hide();
 	updater();
 	run();
 
-	//CLICKER
+	//MAIN CLICK EVENT: check the user's answer
 	$(".btns").on("click", function(){
+		//IF correct answer...
 		if(this.innerHTML === collection[i].answer){
 			i++;
 			correct++;
-			console.log(i);
-			console.log(this.innerHTML);
+			right.play();
 		}
 		else{
 			i++;
 			incorrect++;
-			console.log(i);
-			console.log(this.innerHTML);
+			wrong.play();
 		}
+		//Update the html for new Q&A, reset the time
 		updater();
 		time = 31;
 	});
@@ -78,6 +93,7 @@ $(document).ready(function(){
 			incorrect = 0;
 			$("#replay").hide();
 			$(".score").hide();
+			$("#time").show();
 			$(".btns").show();
 			updater();
 			run();
@@ -87,10 +103,12 @@ $(document).ready(function(){
 
 //UPDATER FUNCTION
 function updater(){
+	//IF iterator is beyond the array, ready up for replay. Hide choice buttons (no more increments for i)
 	if(i >= collection.length){
 		$(".btns").hide();
 		$("#replay").show();
 	}
+	//IF still iterating, update Q&A
 	if(i < collection.length){
 	$("#question").html("Which planet in our solar system " + collection[i].question);
 	$("#choice1").html(collection[i].choices[0]);
@@ -99,7 +117,8 @@ function updater(){
 	$("#choice4").html(collection[i].choices[3]);
 	}
 	else{
-		$("#question").html("Lets see how you did...");
+		$("#time").hide();
+		$("#question").html("YOUR RESULTS");
 		$("#correct").html("Correct: " + correct);
 		$("#incorrect").html("incorrect: " + incorrect);
 		$(".score").show();
