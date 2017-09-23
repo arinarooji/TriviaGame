@@ -88,6 +88,7 @@ $(document).ready(function(){
 
 	//REPLAY (WHEN AVAILABLE)
 	$("#replay").on("click", function(){
+			right.play();
 			i = 0;
 			correct = 0;
 			incorrect = 0;
@@ -120,7 +121,8 @@ function updater(){
 		$("#time").hide();
 		$("#question").html("YOUR RESULTS");
 		$("#correct").html("Correct: " + correct);
-		$("#incorrect").html("incorrect: " + incorrect);
+		$("#incorrect").html("Incorrect: " + incorrect);
+		$("#grade").html("Grade: " + (correct/collection.length) * 100 + "%");
 		$(".score").show();
 	}
 }
