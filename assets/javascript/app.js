@@ -35,6 +35,7 @@ var incorrect = 0;
 var i = 0;
 var time = 31;
 var questionTimeout;
+var pauseTime = false;
 
 
 //FIRE UP THIS CODE WHEN THE DOCUMENT IS READY
@@ -69,9 +70,13 @@ $(document).ready(function(){
 			incorrect++;
 			wrong.play();
 		}
-		//Update the html for new Q&A, reset the time
-		updater();
-		time = 31;
+		//Display answer, pause the time, hide the buttons
+		$("#question").html("The correct answer is " + trivia.answer[i-1]);
+		pauseTime = true;
+		$(".btns").hide();
+		//Update the html for new Q&A after 3 seconds, reset the time
+		setTimeout(updater, 3000);
+		time = 30;
 	});
 
 	//REPLAY (WHEN AVAILABLE)
@@ -92,7 +97,10 @@ $(document).ready(function(){
 
 //UPDATER FUNCTION
 function updater(){
+	//The countdown proceeds
+	pauseTime = false;
 	//IF iterator is beyond the array, ready up for replay. Hide choice buttons (no more increments for i)
+	$(".btns").show();
 	if(i >= trivia.question.length){
 		$(".btns").hide();
 		$("#replay").show();
@@ -129,6 +137,6 @@ function decrement(){
 		i++;
 		updater();
 	}
-	time--;
+	if(!pauseTime){time--;}
 	$("#time").html(time);
 }
