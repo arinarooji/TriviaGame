@@ -5,3 +5,9 @@
 - Visit https://arinarooji.github.io/planet-trivia/
 - The trivia begins! Correctly answer the current question within 30 seconds to score!
 - At the end of the trivia, you will receive your total score and the option to replay.
+
+#### Future Plans
+- Score sharing
+- Additional questions
+- Further code optimization
+- Question order randomization
