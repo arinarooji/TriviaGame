@@ -1,44 +1,29 @@
-//TRIVIA OBJECT: Contains questions, choices, and answers in correct order
-var trivia = {
-	//Questions 1-10
-	question: [
-		"has the largest volcanic mountain? (Olympus Mons)",
-		"has the longest day? (243 Earth days)",
-		"has five known moons? (planet/dwarf planet)",
-		"reaches the coldest temperatures? (-224°C)",
-		"has the shortest day? (9 hours 56 minutes)",
-		"is the only planet not named after a god?",
-		"has no moons or rings?",
-		"has the most extensive rings?",
-		"has the strongest winds ever recorded? (2,000 km/h)",
-		"is the oldest?"],
-	//Choice sets for questions 1-10
-	choice: [ 
-		["Mercury", "Mars", "Earth", "Venus"],
-		["Mercury", "Pluto", "Venus", "Jupiter"],
-		["Pluto", "Mars", "Neptune", "Saturn"],
-		["Pluto", "Mercury", "Neptune", "Uranus"],
-		["Venus", "Saturn", "Jupiter", "Mercury"],
-		["Saturn", "Earth", "Mars", "Pluto"],
-		["Neptune", "Mercury", "Jupiter", "Venus"],
-		["Uranus", "Pluto", "Mars", "Saturn"],
-		["Earth", "Jupiter", "Neptune", "Saturn"],
-		["Mercury", "Mars", "Jupiter", "Venus"]
-	],
-	//Answers for questions 1-10
-	answer: ["Mars","Venus","Pluto","Uranus","Jupiter","Earth","Mercury","Saturn","Neptune","Jupiter"]
-}
+//Question instances (question, answer, choices[])
+var q1 = new Question("has the largest volcanic mountain? (Olympus Mons)", "Mars", ["Mercury", "Mars", "Earth", "Venus"]);
+var q2 = new Question("has the longest day? (243 Earth days)", "Venus", ["Mercury", "Pluto", "Venus", "Jupiter"]);
+var q3 = new Question("has five known moons? (planet/dwarf planet)", "Pluto", ["Pluto", "Mars", "Neptune", "Saturn"]);
+var q4 = new Question("reaches the coldest temperatures? (-224°C)", "Uranus", ["Pluto", "Mercury", "Neptune", "Uranus"]);
+var q5 = new Question("has the shortest day? (9 hours 56 minutes)", "Jupiter", ["Venus", "Saturn", "Jupiter", "Mercury"]);
+var q6 = new Question("is the only planet not named after a god?", "Earth", ["Saturn", "Earth", "Mars", "Pluto"]);
+var q7 = new Question("has no moons or rings?", "Mercury", ["Neptune", "Mercury", "Jupiter", "Venus"]);
+var q8 = new Question("has the most extensive rings?", "Saturn", ["Uranus", "Pluto", "Mars", "Saturn"]);
+var q9 = new Question("has the strongest winds ever recorded? (2,000 km/h)", "Neptune", ["Earth", "Jupiter", "Neptune", "Saturn"]);
+var q10 = new Question("is the oldest?", "Jupiter", ["Mercury", "Mars", "Jupiter", "Venus"]);
 
-//VARIABLES: Array for objects, score counters, iterator, time variables
-var correct = 0;
-var incorrect = 0;
-var i = 0;
-var time = 31;
+//Reference all questions
+var questions = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10];
+
+//Score tracker
+var correct = 0, incorrect = 0;
+
+var i = 0; //Incrementer
+var time = 31; //Timer
+
+//Booleans
 var questionTimeout;
 var pauseTime = false;
 
-
-//FIRE UP THIS CODE WHEN THE DOCUMENT IS READY
+//Document must first load
 $(document).ready(function(){
 	//AUDIO FILES
 	var music = document.createElement("audio");
@@ -57,10 +42,10 @@ $(document).ready(function(){
 	updater();
 	run();
 
-	//MAIN CLICK EVENT: check the user's answer
+	//Planet button click event listener
 	$(".btns").on("click", function(){
 		//IF correct answer...
-		if(this.innerHTML === trivia.answer[i]){ //collection[i].answer){
+		if(this.innerHTML === questions[i].answer){ //collection[i].answer){
 			i++;
 			correct++;
 			right.play();
@@ -71,7 +56,7 @@ $(document).ready(function(){
 			wrong.play();
 		}
 		//Display answer, pause the time, hide the buttons
-		$("#question").html("The correct answer is " + trivia.answer[i-1]);
+		$("#question").html("The correct answer is " + questions[i-1].answer);
 		pauseTime = true;
 		$(".btns").hide();
 		//Update the html for new Q&A after 3 seconds, reset the time
@@ -94,31 +79,30 @@ $(document).ready(function(){
 	});
 });
 
-
 //UPDATER FUNCTION
 function updater(){
 	//The countdown proceeds
 	pauseTime = false;
 	//IF iterator is beyond the array, ready up for replay. Hide choice buttons (no more increments for i)
 	$(".btns").show();
-	if(i >= trivia.question.length){
+	if(i >= questions.length){
 		$(".btns").hide();
 		$("#replay").show();
 	}
 	//IF still iterating, update Q&A
-	if(i < trivia.question.length){
-	$("#question").html("Which planet in our solar system " + trivia.question[i]);
-	$("#choice0").html(trivia.choice[i][0]);
-	$("#choice1").html(trivia.choice[i][1]);
-	$("#choice2").html(trivia.choice[i][2]);
-	$("#choice3").html(trivia.choice[i][3]);
+	if(i < questions.length){
+	$("#question").html("Which planet in our solar system " + questions[i].question);
+	$("#choice0").html(questions[i].choices[0]);
+	$("#choice1").html(questions[i].choices[1]);
+	$("#choice2").html(questions[i].choices[2]);
+	$("#choice3").html(questions[i].choices[3]);
 	}
 	else{
 		$("#time").hide();
 		$("#question").html("YOUR RESULTS");
 		$("#correct").html("Correct: " + correct);
 		$("#incorrect").html("Incorrect: " + incorrect);
-		$("#grade").html("Grade: " + (correct/trivia.question.length) * 100 + "%");
+		$("#grade").html("Grade: " + (correct/questions.length) * 100 + "%");
 		$(".score").show();
 	}
 }
@@ -128,7 +112,7 @@ function run(){
 	questionTimeout = setInterval(decrement, 1000);
 }
 function decrement(){
-	if(i >= trivia.question.length){
+	if(i >= questions.length){
 		clearInterval(questionTimeout);
 	}
 	if(time <= 0){
@@ -139,4 +123,11 @@ function decrement(){
 	}
 	if(!pauseTime){time--;}
 	$("#time").html(time);
+}
+
+//Question constructor
+function Question(question, answer, choices) {
+	this.question 	= question;
+	this.answer 	= answer;
+	this.choices 	= choices;
 }
